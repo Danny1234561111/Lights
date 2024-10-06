@@ -61,13 +61,21 @@ void boss(){
   } 
 }; 
 void handmode() {
+  if (mode == 1) {
+    if (millis()-timing>60000){
+      digitalWrite(color[0], LOW); 
+      digitalWrite(color[1], LOW); 
+      digitalWrite(color[2], LOW); 
+      mode = 0; 
+    }
+  }
  if (Serial.available() > 0) {
   byte cmd = Serial.read(); 
   Serial.print(cmd); // Вывод полученного символа 
   if (mode == 1) {
+    timing=millis();
    if (cmd == AUTO_P) {
     mode = 0; 
-    timing=millis();
     digitalWrite(color[0], LOW); 
     digitalWrite(color[1], LOW); 
     digitalWrite(color[2], LOW); 
@@ -85,6 +93,7 @@ void handmode() {
   } 
   if (mode == 0) {
    if (cmd == HAND_P) {
+    timing=millis();
     mode = 1; 
     digitalWrite(color[0], LOW); 
     digitalWrite(color[1], LOW); 
